@@ -1,5 +1,5 @@
-require 'inker/color/tools'
-require 'inker/color/serializers'
+require_relative 'color/tools'
+require_relative 'color/serializers'
 
 module Inker
   # This class is used to represent a color in Ruby as an object. It allows

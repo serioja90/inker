@@ -52,6 +52,9 @@ module Inker
       #
       # @return [Float] a value in range 0.0-1.0 which indicates the saturation of the color
       def saturation(red, green, blue)
+        # return 0 for black and white colors
+        return 0 if red == green and red == blue and (red == 0 or red == 255)
+
         lightness = lightness(red, green, blue)
         min, max = [red / 255.0, green / 255.0, blue / 255.0].minmax
 
@@ -68,7 +71,10 @@ module Inker
       # @return [Integer] a value in range 0-360 which indicates the HUE value of the color
       def hue(red, green, blue)
         min, max = [red, green, blue].minmax
+
         numerator = (max - min).to_f
+        return 0 if numerator == 0
+
         hue = (red == max)   ? (green - blue) / numerator :
               (green == max) ? 2 + (blue - red) / numerator :
                                4 + (red - green) / numerator
@@ -89,7 +95,7 @@ module Inker
         if saturation == 0
           # There's no saturation, so it's a gray scale color, which
           # depends only on brightness
-          brightness = lightness * 255
+          brightness = (lightness * 255).round
 
           # All RGB components are equal to brightness
           result = {
