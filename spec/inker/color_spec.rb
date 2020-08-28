@@ -113,18 +113,62 @@ RSpec.describe Inker::Color do
   end
 
   describe "#is_hex?" do
-    it "is true for #000000, #fff, and #0f0f0f99" do
-      ["#000000", "#fff", "#0f0f0f99"].each do |x|
-        expect(subject.is_hex?(x)).to be true
+    shared_examples "valid HEX" do |value|
+      it "is true for #{value.inspect}" do
+        expect(subject.is_hex?(value)).to be true
       end
     end
 
-    it "is false for nil, #, #0, #00, #00ff, #00ffa, #00ffaa0, #00ffaa00ff, #ggg" do
-      [nil, "#", "#0", "#00", "#00ff", "#00ffa", "#00ffaa0", "#00ffaa00ff", "#ggg"].each do |x|
-        expect(subject.is_hex?(x)).to be false
+    shared_examples "invalid HEX" do |value|
+      it "is false for #{value.inspect}" do
+        expect(subject.is_hex?(value)).to be false
       end
     end
+
+    # Tests for valid values
+    ["#000000", "#fff", "#0f0f0f99"].each do |value|
+      include_examples "valid HEX", value
+    end
+
+    # Tests for invalid values
+    [nil, "#", "#0", "#00", "#00ff", "#00ffa", "#00ffaa0", "#00ffaa00ff", "#ggg"].each do |value|
+      include_examples "invalid HEX", value
+    end
   end
+
+  describe "#is_rgb?" do
+    shared_examples "valid RGB" do |value|
+      it "is true for #{value.inspect}" do
+        expect(subject.is_rgb?(value)).to be true
+      end
+    end
+
+    shared_examples "invalid RGB" do |value|
+      it "is false for #{value.inspect}" do
+        expect(subject.is_rgb?(value)).to be false
+      end
+    end
+
+    # Tests for valid RGB values
+    ["rgb(0,0,0)", "rgb(255, 255, 255)", "rgb( 0 , 255 , 0 )"].each do |value|
+      include_examples "valid RGB", value
+    end
+
+    # Tests for invalid RGB values
+    ["rgb(0,0,0,0)", "(255, 255, 255)", "rgba(0, 0, 0)", "rgba(0, 0, 0, 0)", "rgb 0 0 0", "rgb(0 0 0)"].each do |value|
+      include_examples "invalid RGB", value
+    end
+  end
+
+  describe "#is_rgba?"
+  describe "#is_hsl?"
+  describe "#is_hsla?"
+  describe "#random"
+  describe "#from_rgb"
+  describe "#from_rgba"
+  describe "#from_hsl"
+  describe "#from_hsla"
+  describe "#parse_color"
 
   describe "instance" do
     let(:color_str){ "#1b5e2099" }
@@ -196,5 +240,18 @@ RSpec.describe Inker::Color do
     it "has a correct #hue value" do
       expect(color.hue).to eq(hue)
     end
+
+    it "has a correct #to_s value"
+    it "has a correct #to_s(:hex6) value"
+    it "has a correct #to_s(:rgb) value"
+    it "has a correct #to_s(:rgba) value"
+    it "has a correct #to_s(:hsl) value"
+    it "has a correct #to_s(:hsla) value"
+    it "has a correct #hex value"
+    it "has a correct #hex6 value"
+    it "has a correct #rgb value"
+    it "has a correct #rgba value"
+    it "has a correct #hsl value"
+    it "has a correct #hsla value"
   end
 end

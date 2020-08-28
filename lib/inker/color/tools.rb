@@ -135,7 +135,7 @@ module Inker
       #
       # @return [Boolean] `true` when color is in RGB format
       def is_rgb?(color_str)
-        !!(color_str.to_s.downcase.strip =~ RGB_REGEX)
+        !!(color_str.to_s.downcase.gsub(/\s+/, '') =~ RGB_REGEX)
       end
 
 
@@ -145,7 +145,7 @@ module Inker
       #
       # @return [Boolean] `true` when color is in RGBA format
       def is_rgba?(color_str)
-        !!(color_str.to_s.downcase.strip =~ RGBA_REGEX)
+        !!(color_str.to_s.downcase.gsub(/\s+/, '') =~ RGBA_REGEX)
       end
 
 
@@ -155,7 +155,7 @@ module Inker
       #
       # @return [Boolean] `true` when color is in HSL format
       def is_hsl?(color_str)
-        !!(color_str.to_s.downcase.strip =~ HSL_REGEX)
+        !!(color_str.to_s.downcase.gsub(/\s+/, '') =~ HSL_REGEX)
       end
 
 
@@ -165,7 +165,7 @@ module Inker
       #
       # @return [Boolean] `true` when color is in HSLA format
       def is_hsla?(color_str)
-        !!(color_str.to_s.downcase.strip =~ HSLA_REGEX)
+        !!(color_str.to_s.downcase.gsub(/\s+/, '') =~ HSLA_REGEX)
       end
 
 
