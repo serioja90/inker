@@ -28,6 +28,13 @@ module Inker
       validate_color!
     end
 
+    def ==(color)
+      self.red   == color.red   and
+      self.green == color.green and
+      self.blue  == color.blue  and
+      self.alpha == color.alpha
+    end
+
 
     # Set the value of red component.
     #
@@ -100,7 +107,7 @@ module Inker
     #
     # @return [Boolean] `true` when color is dark
     def dark?
-      brightness < 127
+      brightness < 128
     end
 
     # Returns a boolean which indicates if the color is light.
