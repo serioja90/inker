@@ -23,10 +23,11 @@ Gem::Specification.new do |spec|
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ["lib"]
 
+  bundler_version = (RUBY_VERSION >= '2.3' ? '~> 2.1' : '~> 1.17')
   rake_version = (RUBY_VERSION >= '2.2' ? '~> 13.0' : '~> 12.0')
 
 
-  spec.add_development_dependency "bundler", "~> 1.17"
+  spec.add_development_dependency "bundler", bundler_version
   spec.add_development_dependency "rake", rake_version
   spec.add_development_dependency "rspec", "~> 3.0"
   spec.add_development_dependency "yard", "~> 0.9"
