@@ -255,7 +255,7 @@ module Inker
           red:   components.shift.to_i,
           green: components.shift.to_i,
           blue:  components.shift.to_i,
-          alpha: components.shift.to_f
+          alpha: (is_rgba ? components.shift.to_f : 1.0)
         }
       end
 
