@@ -163,6 +163,20 @@ module Inker
       end
 
 
+      # Generate a random `Inker::Color`.
+      #
+      # @param with_alpha [Boolean] when `true` include alpha channel
+      #
+      # @return [Inker::Color] a random color
+      def random(with_alpha: false)
+        prefix = with_alpha ? "rgba" : "rgb"
+        values = (1..3).map{ (rand * 255).round }
+        values << rand.round(2) if with_alpha
+
+        Inker.color("#{prefix}(#{values.join(",")})")
+      end
+
+
       # Parse a color string an return it's RGBA components as a hash.
       #
       # @example
