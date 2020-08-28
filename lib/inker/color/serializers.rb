@@ -40,25 +40,29 @@ module Inker
 
       # Convert color to RGBA color string.
       #
+      # @param alpha_precision [Integer] indicates the precision of alpha value
+      #
       # @return [String] a RGBA color string
-      def rgba(precision: 2)
-        return "rgba(#{red}, #{green}, #{blue}, #{alpha.round(precision)})"
+      def rgba(alpha_precision: 2)
+        return "rgba(#{red}, #{green}, #{blue}, #{alpha.round(alpha_precision)})"
       end
 
 
       # Convert color to HSL color string.
       #
       # @return [String] a HSL color string
-      def hsl(precision: 2)
-        return "hsl(#{hue}, #{saturation.round(precision)}, #{lightness.round(precision)})"
+      def hsl
+        return "hsl(#{hue}, #{(saturation * 100).round}%, #{(lightness * 100).round}%)"
       end
 
 
       # Convert color to HSL color string.
       #
+      # @param alpha_precision [Integer] indicates the precision of alpha value
+      #
       # @return [String] a HSL color string
-      def hsla(precision: 2)
-        return "hsl(#{hue}, #{saturation.round(precision)}, #{lightness.round(precision)}, #{alpha.round(precision)})"
+      def hsla(alpha_precision: 2)
+        return "hsl(#{hue}, #{(saturation * 100).round}%, #{(lightness * 100).round}%, #{alpha.round(alpha_precision)})"
       end
     end
   end
