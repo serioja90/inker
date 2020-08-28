@@ -1,4 +1,5 @@
 require "yaml"
+require "digest"
 require "inker/version"
 require "inker/color"
 require "inker/wrappers/string"

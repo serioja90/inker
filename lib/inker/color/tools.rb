@@ -233,6 +233,20 @@ module Inker
       end
 
 
+      # Use MD5 digest of the string to get hex values from specified positions (by default `[0, 29, 14, 30, 28, 31]`)
+      # in order to obtain a color in HEX format which represents the specified string.
+      #
+      # @params custom_string [String] a string from which to generate a color
+      # @params positions [Array] an array of 6 numbers in range 0-31 which indicates the position
+      #         of hex value to get in order to obtain a 6 chars hex string, which will be the result color
+      #
+      # @return [Inker::Color] a `Inker::Color` object which represents the color associated to input string
+      def from_custom_string(custom_string, positions: [0, 29, 14, 30, 28, 31])
+        digest = Digest::MD5.hexdigest(custom_string.to_s)
+        Inker.color("##{positions.map{|p| digest[p]}.join}")
+      end
+
+
       # Parse a color string an return it's RGBA components as a hash.
       #
       # @example

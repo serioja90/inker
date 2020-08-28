@@ -16,6 +16,7 @@ RSpec.describe Inker::Color do
   it { is_expected.to respond_to :from_rgba }
   it { is_expected.to respond_to :from_hsl }
   it { is_expected.to respond_to :from_hsla }
+  it { is_expected.to respond_to :from_custom_string }
   it { is_expected.to respond_to :parse_color }
 
   describe "#brightness" do
@@ -191,6 +192,7 @@ RSpec.describe Inker::Color do
   describe "#from_rgba"
   describe "#from_hsl"
   describe "#from_hsla"
+  describe "#from_custom_string"
   describe "#parse_color"
 
   describe "instance" do
