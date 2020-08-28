@@ -177,6 +177,56 @@ module Inker
       end
 
 
+      # A helper for `Inker::Color` generation from RGB components.
+      #
+      # @param red [Integer] the value of red component [0-255]
+      # @param green [Integer] the value of green component [0-255]
+      # @param blue [Integer] the value of blue component [0-255]
+      #
+      # @return [Inker::Color] a `Inker::Color` generated from passed RGB values
+      def from_rgb(red, green, blue)
+        Inker.color("rgb(#{red}, #{green}, #{blue})")
+      end
+
+
+      # A helper for `Inker::Color` generation from RGBA components.
+      #
+      # @param red [Integer] the value of red component [0-255]
+      # @param green [Integer] the value of green component [0-255]
+      # @param blue [Integer] the value of blue component [0-255]
+      # @param alpha [Float] the value of alpha component [0.0-1.1]
+      #
+      # @return [Inker::Color] a `Inker::Color` generated from passed RGBA values
+      def from_rgba(red, green, blue, alpha)
+        Inker.color("rgba(#{red}, #{green}, #{blue}, #{alpha})")
+      end
+
+
+      # A helper for `Inker::Color` generation from HSL components.
+      #
+      # @param hue [Integer] the value of HUE component [0-360]
+      # @param saturation [Float] the value of saturation component [0.0-1.0]
+      # @param lightness [Float] the value of lightness component [0.0-1.0]
+      #
+      # @return [Inker::Color] a `Inker::Color` generated from passed HSL values
+      def from_hsl(hue, saturation, lightness)
+        Inker.color("hsl(#{hue}, #{saturation}, #{lightness})")
+      end
+
+
+      # A helper for `Inker::Color` generation from HSLA components.
+      #
+      # @param hue [Integer] the value of HUE component [0-360]
+      # @param saturation [Float] the value of saturation component [0.0-1.0]
+      # @param lightness [Float] the value of lightness component [0.0-1.0]
+      # @param alpha [Float] the value of alpha component [0.0-1.1]
+      #
+      # @return [Inker::Color] a `Inker::Color` generated from passed HSLA values
+      def from_hsla(hue, saturation, lightness, alpha)
+        Inker.color("hsla(#{hue}, #{saturation}, #{lightness}, #{alpha})")
+      end
+
+
       # Parse a color string an return it's RGBA components as a hash.
       #
       # @example
