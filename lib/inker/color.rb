@@ -127,6 +127,8 @@ module Inker
       when 'hex6' then self.hex6
       when 'rgb'  then self.rgb
       when 'rgba' then self.rgba
+      when 'hsl'  then self.hsl
+      when 'hsla' then self.hsla
       else
         self.hex
       end

@@ -160,7 +160,30 @@ RSpec.describe Inker::Color do
     end
   end
 
-  describe "#is_rgba?"
+  describe "#is_rgba?" do
+    shared_examples "valid RGBA" do |value|
+      it "is true for #{value.inspect}" do
+        expect(subject.is_rgba?(value)).to be true
+      end
+    end
+
+    shared_examples "invalid RGBA" do |value|
+      it "is false for #{value.inspect}" do
+        expect(subject.is_rgba?(value)).to be false
+      end
+    end
+
+    # Tests for valid RGB values
+    ["rgba(0,0,0,0.5)", "rgba(255, 255, 255, 0)", "rgba( 0 , 255 , 0 , 1.0)"].each do |value|
+      include_examples "valid RGBA", value
+    end
+
+    # Tests for invalid RGB values
+    ["rgba(0,0,0)", "(255, 255, 255, 1)", "rgb(0, 0, 0)", "rgb(0, 0, 0, 0)", "rgba 0 0 0 0", "rgba(0 0 0)"].each do |value|
+      include_examples "invalid RGBA", value
+    end
+  end
+
   describe "#is_hsl?"
   describe "#is_hsla?"
   describe "#random"
@@ -172,6 +195,11 @@ RSpec.describe Inker::Color do
 
   describe "instance" do
     let(:color_str){ "#1b5e2099" }
+    let(:hex6_str) { color_str[0..-3] }
+    let(:rgb_str){ "rgb(27, 94, 32)" }
+    let(:rgba_str) { "rgba(27, 94, 32, 0.6)" }
+    let(:hsl_str) { "hsl(124, 55%, 24%)" }
+    let(:hsla_str) { "hsl(124, 55%, 24%, 0.6)" }
     let(:red){ 27 }
     let(:green){ 94 }
     let(:blue){ 32 }
@@ -241,17 +269,52 @@ RSpec.describe Inker::Color do
       expect(color.hue).to eq(hue)
     end
 
-    it "has a correct #to_s value"
-    it "has a correct #to_s(:hex6) value"
-    it "has a correct #to_s(:rgb) value"
-    it "has a correct #to_s(:rgba) value"
-    it "has a correct #to_s(:hsl) value"
-    it "has a correct #to_s(:hsla) value"
-    it "has a correct #hex value"
-    it "has a correct #hex6 value"
-    it "has a correct #rgb value"
-    it "has a correct #rgba value"
-    it "has a correct #hsl value"
-    it "has a correct #hsla value"
+    it "has a correct #to_s value" do
+      expect(color.to_s).to eq(color_str)
+    end
+
+    it "has a correct #to_s(:hex6) value" do
+      expect(color.to_s(:hex6)).to eq(color.hex6)
+    end
+
+    it "has a correct #to_s(:rgb) value" do
+      expect(color.to_s(:rgb)).to eq(color.rgb)
+    end
+
+    it "has a correct #to_s(:rgba) value" do
+      expect(color.to_s(:rgba)).to eq(color.rgba)
+    end
+
+    it "has a correct #to_s(:hsl) value" do
+      expect(color.to_s(:hsl)).to eq(color.hsl)
+    end
+
+    it "has a correct #to_s(:hsla) value" do
+      expect(color.to_s(:hsla)).to eq(color.hsla)
+    end
+
+    it "has a correct #hex value" do
+      expect(color.hex).to eq(color_str)
+    end
+
+    it "has a correct #hex6 value" do
+      expect(color.hex6).to eq(hex6_str)
+    end
+
+    it "has a correct #rgb value" do
+      expect(color.rgb).to eq(rgb_str)
+    end
+
+    it "has a correct #rgba value" do
+      expect(color.rgba).to eq(rgba_str)
+    end
+
+    it "has a correct #hsl value" do
+      expect(color.hsl).to eq(hsl_str)
+    end
+
+    it "has a correct #hsla value" do
+      expect(color.hsla).to eq(hsla_str)
+    end
   end
 end
