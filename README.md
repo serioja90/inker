@@ -89,6 +89,40 @@ require "inker"
 "hsla(21, 100%, 45%, 0.5)".to_color.rgba            #=> "rgba(230, 80, 0, 0.5)"
 ```
 
+## Features
+
+Inker implements some useful features for getting useful color info an color manipulation.
+
+### Instance methods
+
+| Method name   | Description                                                       |
+|---------------|-------------------------------------------------------------------|
+| `#red`        | Returns the value of red component in range `0-255`               |
+| `#red=`       | Allows to set a new value for red component in range `0-255`      |
+| `#green`      | Returns the value of green component in range `0-255`             |
+| `#green=`     | Allows to set a new value for green component in range `0-255`    |
+| `#blue`       | Returns the value of blue component in range `0-255`              |
+| `#blue=`      | Allows to set a new value for blue component in range `0-255`     |
+| `#alpha`      | Returns the value of alpha component in range `0.0-1.0`           |
+| `#alpha=`     | Allows to set a new value for alpha component in range `0.0-1.0`  |
+| `#brightness` | Returns the brightness of the color in range `0-255`              |
+| `#dark?`      | Returns a boolean (`true` when color is dark)                     |
+| `#light?`     | Returns a boolean (`true` when color is light)                    |
+| `#lightness`  | Returns the lightness of the color in range `0.0-1.0`             |
+| `#saturation` | Returns the saturation of the color in range `0.0-1.0`            |
+| `#hue`        | Retursn the value of HUE component of the color in range `0-360`  |
+
+### Class methods
+
+| Method name                                                 | Description                                                                                             |
+|-------------------------------------------------------------|---------------------------------------------------------------------------------------------------------|
+| `Inker::Color.from_rgb(Integer, Integer, Integer)`          | Create a new `Inker::Color` instance from RGB components values                                         |
+| `Inker::Color.from_rgba(Integer, Integer, Integer, Float)`  | Same as `Inker::Color.from_rgb`, but has also the alpha component                                       |
+| `Inker::Color.from_hsl(Integer, Float, Float)`              | Create a new `Inker::Color` instance from HSL components (Saturation and Lightness in range `0.0-1.0`)  |
+| `Inker::Color.from_hsla(Integer, Float, Float, Float)`      | Same as `Inker::Color.from_hsl`, but has also the alpha component                                       |
+| `Inker::Color.from_custom_string(String, options)`          | Generate a new `Inker::Color` from a custom string, by getting HEX characters from MD5 digest of input string. By setting `:position` option you can change the index of target HEX chars that are used for HEX color generation. (default `position: [0, 29, 14, 30, 28, 31]`)                                                         |
+| `Inker::Color.random`                                       | Generate a random `Inker::Color` instance                                                               |
+
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
