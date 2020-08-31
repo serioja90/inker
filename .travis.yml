@@ -1,0 +1,25 @@
+---
+sudo: false
+language: ruby
+cache: bundler
+jobs:
+  include:
+    - name: "Ruby 2.2"
+      rvm: 2.2
+      env: "BUNDLER_VERSION=1.17.3"
+    - name: "Ruby 2.3"
+      rvm: 2.3
+      env: "BUNDLER_VERSION=2.1.4"
+    - name: "Ruby 2.4"
+      rvm: 2.4
+      env: "BUNDLER_VERSION=2.1.4"
+    - name: "Ruby 2.5"
+      rvm: 2.5
+      env: "BUNDLER_VERSION=2.1.4"
+    - name: "Ruby 2.6"
+      rvm: 2.6
+      env: "BUNDLER_VERSION=2.1.4"
+    - name: "Ruby 2.7"
+      rvm: 2.7
+      env: "BUNDLER_VERSION=2.1.4"
+before_install: gem install bundler -v $BUNDLER_VERSION
