@@ -16,16 +16,16 @@ module Inker
     #
     # @param color_str [String] a color string
     def initialize(color_str)
-      @input = color_str.to_s.downcase.gsub(/\s+/, '')
+      input = color_str.to_s.downcase.gsub(/\s+/, '')
 
-      Color.parse_color(@input).tap do |color|
+      Color.parse_color(input).tap do |color|
         @red   = color[:red]
         @green = color[:green]
         @blue  = color[:blue]
         @alpha = color[:alpha]
       end
 
-      validate_color!
+      validate_color!(input)
     end
 
     def ==(other)
@@ -144,16 +144,19 @@ module Inker
       Color.luminance(@red, @green, @blue)
     end
 
+    # Calculates the result of 2 colors overlay.
+    # @return [Inker::Color] a new instance of {Inker::Color} which represents the result of the overlay operation.
     def overlay(color)
       result = dup
+      other = color.to_color
 
       return result if alpha >= 1
 
-      alpha_weight = color.alpha * (1 - alpha)
+      alpha_weight = other.alpha * (1 - alpha)
 
       # Calculate the result of the overlay operation.
       3.times do |i|
-        result[i] = self[i] * alpha + color[i] * alpha_weight
+        result[i] = (self[i] * alpha + other[i] * alpha_weight).round
       end
 
       result.alpha = alpha + alpha_weight
@@ -164,7 +167,7 @@ module Inker
     # Returns the contrast ratio between two colors.
     # @param [Float] a value between 0.0-21.0 which indicates the contrast ratio between two colors (higher is better).
     def contrast_ratio(color)
-      l2, l1 = [luminance, color.luminance].minmax
+      l2, l1 = [luminance, color.to_color.luminance].minmax
 
       (l1 + 0.05) / (l2 + 0.05)
     end
@@ -186,10 +189,14 @@ module Inker
       end
     end
 
+    def to_color
+      self
+    end
+
     private
 
     # Validates the values of the color.
-    def validate_color!
+    def validate_color!(input)
       invalid = (@red.negative? || @red > 255)
       invalid ||= (@green.negative? || @green > 255)
       invalid ||= (@blue.negative? || @blue > 255)
@@ -197,7 +204,7 @@ module Inker
 
       return unless invalid
 
-      raise ArgumentError, "Invalid color: #{@input.inspect} " \
+      raise ArgumentError, "Invalid color: #{input.inspect} " \
         "(R: #{@red.inspect}, G: #{@green.inspect}, B: #{@blue.inspect}, A: #{@alpha.inspect})"
     end
   end

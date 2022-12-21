@@ -109,27 +109,14 @@ module Inker
       #
       # @return [Hash] a `Hash` which contains the values of RGB components
       def hsl_to_rgb(hue, saturation, lightness)
-        result = nil
-        if saturation.zero?
-          # There's no saturation, so it's a gray scale color, which
-          # depends only on brightness
-          brightness = (lightness * 255).round
+        c, x, m = hue_convert_params(hue, saturation, lightness)
+        weights = hsl_hue_weights(hue, c, x)
 
-          # All RGB components are equal to brightness
-          result = { red: brightness, green: brightness, blue: brightness }
-        else
-          q = lightness < 0.5 ? lightness * (1 + saturation) : lightness + saturation - lightness * saturation
-          p = 2 * lightness - q
-          norm_hue = hue / 360.0
-
-          result = {
-            red: (hue_to_rgb(p, q, norm_hue + 1.0 / 3.0) * 255).round,
-            green: (hue_to_rgb(p, q, norm_hue) * 255).round,
-            blue: (hue_to_rgb(p, q, norm_hue - 1.0 / 3.0) * 255).round
-          }
-        end
-
-        result
+        {
+          red: ((weights[0] + m) * 255).round,
+          green: ((weights[1] + m) * 255).round,
+          blue: ((weights[2] + m) * 255).round
+        }
       end
 
       # Returns a `Boolean` which indicates if color is in HEX format
@@ -307,6 +294,26 @@ module Inker
         result
       end
 
+      # Calculates the contrast ratio between two colors.
+      #
+      # @param color1 [Inker::Color|String] the first color.
+      # @param color2 [Inker::Color|String] the second color.
+      #
+      # @return [Float] the contrast ratio between the two colors [1.0-21.0].
+      def contrast_ratio(color1, color2)
+        color1.to_color.contrast_ratio(color2)
+      end
+
+      # Calculates the result of overlaying two colors.
+      #
+      # @param color1 [Inker::Color|String] the first color.
+      # @param color2 [Inker::Color|String] the second color.
+      #
+      # @return [Inker::Color] the result of overlaying the two colors.
+      def overlay(color1, color2)
+        color1.to_color.overlay(color2)
+      end
+
       private
 
       # Parse a color string as HEX color.
@@ -357,7 +364,7 @@ module Inker
       def parse_hsl(color_str, is_hsla: false)
         components = color_str.gsub(/(^hsl(a)?\(|\)$)/, '').split(',')
 
-        hue = components.shift.to_i
+        hue = components.shift.to_i % 360
 
         saturation = components.shift
         saturation = saturation.include?('%') ? saturation.to_f / 100 : saturation.to_f
@@ -387,6 +394,34 @@ module Inker
         return p + (q - p) * (2 / 3 - t) * 6 if t < 2.0 / 3.0
 
         p
+      end
+
+      # Calculate HUE to RGB conversion params, with will be used to calculate RGB components in
+      # combination with the `hsl_hue_weights` function.
+      #
+      # @param hue [Integer] hue component of HSL color [0-359]
+      # @param saturation [Float] saturation component of HSL color [0.0-1.0]
+      # @param lightness [Float] lightness component of HSL color [0.0-1.0]
+      #
+      # @return [Array<Float>] an array which contains the `c`, `x` and `m` values.
+      def hue_convert_params(hue, saturation, lightness)
+        c = (1 - (2 * lightness - 1).abs) * saturation
+        x = c * (1 - ((hue / 60.0) % 2 - 1).abs)
+        m = lightness - c / 2.0
+
+        [c, x, m]
+      end
+
+      # A helper function
+      def hsl_hue_weights(hue, c, x)
+        case hue
+        when 0..59 then [c, x, 0]
+        when 60..119 then [x, c, 0]
+        when 120..179 then [0, c, x]
+        when 180..239 then [0, x, c]
+        when 240..299 then [x, 0, c]
+        when 300..359 then [c, 0, x]
+        end
       end
     end
   end
