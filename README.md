@@ -95,22 +95,24 @@ Inker implements some useful features for getting useful color info an color man
 
 ### Instance methods
 
-| Method name   | Description                                                       |
-|---------------|-------------------------------------------------------------------|
-| `#red`        | Returns the value of red component in range `0-255`               |
-| `#red=`       | Allows to set a new value for red component in range `0-255`      |
-| `#green`      | Returns the value of green component in range `0-255`             |
-| `#green=`     | Allows to set a new value for green component in range `0-255`    |
-| `#blue`       | Returns the value of blue component in range `0-255`              |
-| `#blue=`      | Allows to set a new value for blue component in range `0-255`     |
-| `#alpha`      | Returns the value of alpha component in range `0.0-1.0`           |
-| `#alpha=`     | Allows to set a new value for alpha component in range `0.0-1.0`  |
-| `#brightness` | Returns the brightness of the color in range `0-255`              |
-| `#dark?`      | Returns a boolean (`true` when color is dark)                     |
-| `#light?`     | Returns a boolean (`true` when color is light)                    |
-| `#lightness`  | Returns the lightness of the color in range `0.0-1.0`             |
-| `#saturation` | Returns the saturation of the color in range `0.0-1.0`            |
-| `#hue`        | Retursn the value of HUE component of the color in range `0-360`  |
+| Method name                    | Description                                                                                                                                 |
+|--------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------|
+| `#red`                         | Returns the value of red component in range `0-255`                                                                                         |
+| `#red=`                        | Allows to set a new value for red component in range `0-255`                                                                                |
+| `#green`                       | Returns the value of green component in range `0-255`                                                                                       |
+| `#green=`                      | Allows to set a new value for green component in range `0-255`                                                                              |
+| `#blue`                        | Returns the value of blue component in range `0-255`                                                                                        |
+| `#blue=`                       | Allows to set a new value for blue component in range `0-255`                                                                               |
+| `#alpha`                       | Returns the value of alpha component in range `0.0-1.0`                                                                                     |
+| `#alpha=`                      | Allows to set a new value for alpha component in range `0.0-1.0`                                                                            |
+| `#brightness`                  | Returns the brightness of the color in range `0-255`                                                                                        |
+| `#dark?`                       | Returns a boolean (`true` when color is dark)                                                                                               |
+| `#light?`                      | Returns a boolean (`true` when color is light)                                                                                              |
+| `#lightness`                   | Returns the lightness of the color in range `0.0-1.0`                                                                                       |
+| `#saturation`                  | Returns the saturation of the color in range `0.0-1.0`                                                                                      |
+| `#hue`                         | Retursn the value of HUE component of the color in range `0-360`                                                                            |
+| `#contrast_ratio(other_color)` | Calculates the contrast ratio between current color end `other_color` [1-21]. A good contrast should return a value between `4.5` and `21`. |
+| `#overlay(other_color)`        | Calculates the result of the overlay between current color end `other_color`                                                                |
 
 ### Class methods
 
@@ -122,6 +124,8 @@ Inker implements some useful features for getting useful color info an color man
 | `Inker::Color.from_hsla(Integer, Float, Float, Float)`      | Same as `Inker::Color.from_hsl`, but has also the alpha component                                       |
 | `Inker::Color.from_custom_string(String, options)`          | Generate a new `Inker::Color` from a custom string, by getting HEX characters from MD5 digest of input string. By setting `:position` option you can change the index of target HEX chars that are used for HEX color generation. (default `position: [0, 29, 14, 30, 28, 31]`)                                                         |
 | `Inker::Color.random`                                       | Generate a random `Inker::Color` instance                                                               |
+| `Inker::Color.contrast_ratio(color1, color2)`               | Calculates the contrast ratio between two colors and returns a value in range `[1-21]`. Colors could be specified as `Inker::Color` instances or strings. |
+| `Inker::Color.overlay(color1, color)`                       | Calculates the result of the overlay between two colors and returns a new `Inker::Color` instance. |
 
 ## Development
 
